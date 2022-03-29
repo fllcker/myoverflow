@@ -13,12 +13,16 @@ export class AuthMiddleware implements NestMiddleware {
             let token = req.headers.authorization.split(' ')[1]
             try {
                 let verify = this.jwtService.verify(token)
-                res.cookie('user', verify)
-                //req.user = verify
+                // res.cookie('user', JSON.stringify(verify), {
+                //     path: '/',
+                //     maxAge: 36000,
+                //     secure: false
+                // })
+                // //req.user = verify
                 next()
             } catch (e) {
-                res.redirect('')
+                res.redirect('/alert/Ошибка авторизации/Авторизуйтесь заного')
             }
-        } else res.redirect('')
+        } else res.redirect('/alert/Ошибка авторизации/Авторизуйтесь заного')
     }
 }

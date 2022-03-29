@@ -1,0 +1,41 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    width: 80%;
+    padding: 20px;
+
+
+}
+
+.headerr {
+    border-top: 3px solid #f48225;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.alink {
+    text-decoration: none;
+    color: #525960;
+    font-family: 'Ubuntu';
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.my {
+    color: #222426;
+    font-weight: 600;
+    font-family: 'Ubuntu';
+    font-size: 18px;
+}
+
+.overflow {
+    color: #222426;
+    font-weight: 900;
+    font-family: 'Ubuntu';
+    font-size: 18px;
+}

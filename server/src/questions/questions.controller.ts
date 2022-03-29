@@ -25,4 +25,14 @@ export class QuestionsController {
     getQuestionByUserId(@Param('id') qId) {
         return this.questionsService.getQuestionByUserId(parseInt(qId))
     }
+
+    @Get('/contains/title/:title')
+    getQuestionsContainsInTitle(@Param('title') title) {
+        return this.questionsService.getQuestionsContainsInTitle(title)
+    }
+
+    @Get('/contains/tag/:tag')
+    getQuestionsByTag(@Param('tag') tag) {
+        return this.questionsService.getQuestionsByTag(tag)
+    }
 }

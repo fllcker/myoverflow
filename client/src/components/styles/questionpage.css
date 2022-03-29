@@ -1,0 +1,43 @@
+.qpage {
+    padding: 20px;
+    margin: auto;
+    margin-top: 50px;
+    background: white;
+    width: 40%;
+}
+
+.tag {
+    border: 0px solid black;
+    width: max-content;
+    padding: 5px;
+    background: #f48225;
+    color: white;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.tags {
+    display: flex;
+    margin-top: 30px;
+}
+
+.answers {
+    margin-top: 10px;
+}
+
+.answer {
+
+
+    padding: 10px;
+}
+
+.tta {
+    width: 97%;
+}
+
+.nm {
+    margin-top: 10px;
+    margin-left: 0px;
+}

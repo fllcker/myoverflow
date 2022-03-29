@@ -33,6 +33,15 @@ input {
     outline: none;
 }
 
+textarea {
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(82, 89, 96, 0.51);
+    border-radius: 3px;
+
+    outline: none;
+}
+
 .search_input {
     width: 600px;
 }

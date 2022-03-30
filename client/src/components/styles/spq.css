@@ -1,0 +1,10 @@
+.SearchPageQuestion {
+
+
+    border-bottom: 1px solid #ebebeb;
+    padding: 5px 0px 20px 0px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

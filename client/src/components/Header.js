@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './styles/header.css'
 import {Link} from "react-router-dom";
 
 const Header = () => {
+    let [sinput, SetSinput] = useState('')
+
+    const startSearch = () => {
+        if (sinput.length == 0) return 1;
+
+
+    }
+
     return (
         <header className='headerr'>
             <div className="header">
@@ -18,7 +26,8 @@ const Header = () => {
                 </div>
 
                 <div className="search">
-                    <input type="text" className="search_input" placeholder='Search'/>
+                    <input onBlur={startSearch} type="text" className="search_input" placeholder='Search' value={sinput} onChange={event => SetSinput(event.target.value)}/>
+                    <Link to={'/search/q/' + sinput} className='alink asearch'>Search</Link>
                 </div>
 
                 <div className="accNav">

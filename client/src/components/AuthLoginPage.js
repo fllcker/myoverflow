@@ -35,6 +35,8 @@ const AuthLoginPage = (props) => {
                     maxAge: 36000,
                     secure: false
                 })
+
+                return document.location.href = '/alert/Успех/Вы авторизовались'
             })
 
         setEmail('')

@@ -41,7 +41,7 @@ const NewQuestionPage = () => {
             .then(response => response.json())
             .then((newdata) => {
                 let post_id = newdata.id;
-                document.location.href = '/alert/Вы создали вопрос/Его ид - ' + post_id
+                document.location.href = '/questions/id/' + post_id
             })
 
         setQTitle('')

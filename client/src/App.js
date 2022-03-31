@@ -7,6 +7,7 @@ import NewQuestionPage from "./components/NewQuestionPage";
 import QuestionView from "./components/QuestionView";
 import './components/styles/pages.css'
 import SearchPage from "./components/SearchPage";
+import HomePage from "./components/HomePage";
 
 function App() {
     return (
@@ -14,12 +15,12 @@ function App() {
             <Header/>
 
             <Routes>
+                <Route path='/' element={<HomePage/>}/>
                 <Route path='/alert/:title/:text' element={<MessagePage/>}/>
                 <Route path='/questions/new' element={<NewQuestionPage/>}/>
                 <Route path='/questions/id/:id' element={<QuestionView/>}/>
                 <Route path='/search/q/:text' element={<SearchPage/>}/>
                 <Route path='/search/tag/:text' element={<SearchPage etag={true}/>}/>
-
                 <Route path='/users/login' element={<AuthLoginPage/>}/>
                 <Route path='/users/singup' element={<AuthSingupPage/>}/>
             </Routes>

@@ -4,6 +4,7 @@ import {Link, useParams} from "react-router-dom";
 import AllAnswers from "../AllAnswers";
 import {useCookies} from "react-cookie";
 import NewAnswer from "../NewAnswer";
+import env from "react-dotenv";
 
 const QuestionView = () => {
     let {id} = useParams()
@@ -27,7 +28,7 @@ const QuestionView = () => {
             }
         };
 
-        fetch(window.env.API_URL + 'questions/id/' + id, requestOptions)
+        fetch('http://localhost:7000/' + 'questions/id/' + id, requestOptions)
             .then(response => response.json())
             .then((data) => {
                 setPostAuthor(data.creatorUserName)

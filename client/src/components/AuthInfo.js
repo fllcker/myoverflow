@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './styles/pages.css'
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
+import env from "react-dotenv";
 
 const AuthInfo = (props) => {
     let [username, setUsername] = useState('')
@@ -20,7 +21,7 @@ const AuthInfo = (props) => {
             }
         };
 
-        fetch(window.env.API_URL + 'users/jwttest', requestOptions)
+        fetch('http://localhost:7000/' + 'users/jwttest', requestOptions)
             .then(response => response.text())
             .then((data) => {
                 if (data == '123') {

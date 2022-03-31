@@ -23,7 +23,7 @@ const AuthLoginPage = (props) => {
             body: JSON.stringify(payload)
         };
 
-        fetch(window.env.API_URL + 'users/login', requestOptions)
+        fetch('http://localhost:7000/' + 'users/login', requestOptions)
             .then(response => response.text())
             .then((data) => {
                 // data -> jwt token

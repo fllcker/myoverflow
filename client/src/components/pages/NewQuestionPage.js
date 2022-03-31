@@ -37,7 +37,7 @@ const NewQuestionPage = () => {
             body: JSON.stringify(payload)
         };
 
-        fetch(window.env.API_URL + 'questions/new', requestOptions)
+        fetch('http://localhost:7000/' + 'questions/new', requestOptions)
             .then(response => response.json())
             .then((newdata) => {
                 let post_id = newdata.id;

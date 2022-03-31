@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
+import env from "react-dotenv";
 
 const NewAnswer = (props) => {
     const [cookies, setCookie] = useCookies();
@@ -29,7 +30,7 @@ const NewAnswer = (props) => {
             body: JSON.stringify(payload)
         };
 
-        fetch(window.env.API_URL + 'answers', requestOptions)
+        fetch('http://localhost:7000/' + 'answers', requestOptions)
             .then(response => response.json())
             .then(data => document.location.reload())
 

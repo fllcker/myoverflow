@@ -28,8 +28,7 @@ const AccNav = () => {
                     'Authorization': 'Bearer ' + jwt
                 }
             };
-
-            fetch(window.env.API_URL + 'users/jwttest', requestOptions)
+            fetch('http://localhost:7000/' + 'users/jwttest', requestOptions)
                 .then(response => response.text())
                 .then((data) => {
                     if (data == '123') {

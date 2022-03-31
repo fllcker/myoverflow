@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useCookies} from "react-cookie";
 import Answer from "./Answer";
+import env from "react-dotenv";
 
 const AllAnswers = (props) => {
     let [answers, setAnswers] = useState([])
@@ -17,7 +18,7 @@ const AllAnswers = (props) => {
             }
         };
 
-        fetch(window.env.API_URL + 'answers/' + props.id, requestOptions)
+        fetch('http://localhost:7000/' + 'answers/' + props.id, requestOptions)
             .then(response => response.json())
             .then((data) => {
                 data.reverse()

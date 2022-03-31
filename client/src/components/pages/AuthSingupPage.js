@@ -28,7 +28,7 @@ const AuthSingupPage = (props) => {
             body: JSON.stringify(payload)
         };
 
-        fetch(window.env.API_URL + 'users/registration', requestOptions)
+        fetch('http://localhost:7000/' + 'users/registration', requestOptions)
             .then(response => response.text())
             .then((data) => {
                 // data -> jwt token

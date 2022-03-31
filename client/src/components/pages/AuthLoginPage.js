@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import '../styles/auth.css'
 import {useCookies} from "react-cookie";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const AuthLoginPage = (props) => {
-    let [email, setEmail] = useState('')
-    let [pass, setPass] = useState('')
-    const [cookies, setCookie] = useCookies();
-
-    // getting user jwt
-    let jwt = cookies['jsonwebtoken'];
-
+    const [email, setEmail] = useState('')
+    const [pass, setPass] = useState('')
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const navigate = useNavigate();
 
     const nextButton = () => {
         const payload = {
@@ -17,25 +16,23 @@ const AuthLoginPage = (props) => {
             password: pass
         }
 
-        const requestOptions = {
+        axios({
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        };
+            data: payload,
+            url: 'users/login'
+        })
+            .then((response) => {
+                let data = response.data;
 
-        fetch('http://localhost:7000/' + 'users/login', requestOptions)
-            .then(response => response.text())
-            .then((data) => {
-                // data -> jwt token
-                if (data.includes('Wrong password')) return document.location.href = '/alert/Ошибка/Проверьте данные'
-                if (data.includes('Cannot read properties')) return document.location.href = '/alert/Ошибка/Проверьте данные'
+                if (data.includes('Wrong password')) return navigate('/alert/Ошибка/Проверьте данные')
+                if (data.includes('Cannot read properties')) return navigate('/alert/Ошибка/Проверьте данные')
                 setCookie('jsonwebtoken', data, {
                     path: '/',
                     maxAge: 36000,
                     secure: false
                 })
 
-                return document.location.href = '/alert/Успех/Вы авторизовались'
+                return navigate('/alert/Успех/Вы авторизовались')
             })
 
         setEmail('')

@@ -1,40 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/questionpage.css'
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import AllAnswers from "../AllAnswers";
 import {useCookies} from "react-cookie";
 import NewAnswer from "../NewAnswer";
-import env from "react-dotenv";
+import axios from "axios";
 
 const QuestionView = () => {
     let {id} = useParams()
     const [cookies] = useCookies();
+    const navigate = useNavigate();
+    let jwt = cookies['jsonwebtoken'];
 
     // states
     let [postAuthor, setPostAuthor] = useState('')
     let [postTitle, setPostTitle] = useState('')
     let [postQue, setPostQue] = useState('')
     let [postTags, setPostTags] = useState([])
-    let jwt = cookies['jsonwebtoken'];
+
 
     useEffect(() => {
-        if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
+        if (!jwt) return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
 
-        const requestOptions = {
-            method: 'GET',
+        axios({
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + jwt
-            }
-        };
-
-        fetch('http://localhost:7000/' + 'questions/id/' + id, requestOptions)
-            .then(response => response.json())
-            .then((data) => {
-                setPostAuthor(data.creatorUserName)
-                setPostTitle(data.title)
-                setPostQue(data.description)
-                setPostTags(data.tags)
+            },
+            url: 'questions/id/' + id
+        })
+            .then((response) => {
+                setPostAuthor(response.data.creatorUserName)
+                setPostTitle(response.data.title)
+                setPostQue(response.data.description)
+                setPostTags(response.data.tags)
             })
     }, [id])
 
@@ -53,7 +51,6 @@ const QuestionView = () => {
             </div>
 
             <NewAnswer id={id}/>
-
             <AllAnswers id={id}/>
         </div>
     );

@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import '../styles/auth.css'
 import {useCookies} from "react-cookie";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const AuthSingupPage = (props) => {
-    let [email, setEmail] = useState('')
-    let [pass, setPass] = useState('')
-    let [username, setUsername] = useState('')
-    const [cookies, setCookie] = useCookies();
-
-    // getting user jwt
-    let jwt = cookies['jsonwebtoken'];
+    const [email, setEmail] = useState('')
+    const [pass, setPass] = useState('')
+    const [username, setUsername] = useState('')
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const navigate = useNavigate();
 
     const nextButton = () => {
         const payload = {
@@ -18,27 +18,24 @@ const AuthSingupPage = (props) => {
             username
         }
 
-        if ((2 > email.length > 32) || (!email.includes('@'))) return document.location.href = '/alert/Ошибка/Проверьте введенный email'
-        if (pass.length < 2) return document.location.href = '/alert/Ошибка/Проверьте введенный пароль'
-        if (username.length < 2) return document.location.href = '/alert/Ошибка/Проверьте введенный username'
+        if ((2 > email.length > 32) || (!email.includes('@'))) return navigate('/alert/Ошибка/Проверьте введенный email')
+        if (pass.length < 2) return navigate('/alert/Ошибка/Проверьте введенный пароль')
+        if (username.length < 2) return navigate('/alert/Ошибка/Проверьте введенный username')
 
-        const requestOptions = {
+        axios({
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        };
-
-        fetch('http://localhost:7000/' + 'users/registration', requestOptions)
-            .then(response => response.text())
-            .then((data) => {
-                // data -> jwt token
-                if (data.includes('повторяющееся значение')) return document.location.href = '/alert/Ошибка/Аккаунт с таким email уже существует'
+            data: payload,
+            url: 'users/registration'
+        })
+            .then((response) => {
+                let data = response.data;
+                if (data.includes('повторяющееся значение')) return navigate('/alert/Ошибка/Аккаунт с таким email уже существует')
                 setCookie('jsonwebtoken', data, {
                     path: '/',
                     maxAge: 36000,
                     secure: false
                 })
-                return document.location.href = '/alert/Успех/Вы зарегистрировались'
+                return navigate('/alert/Успех/Вы зарегистрировались')
             })
 
         setEmail('')

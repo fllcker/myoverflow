@@ -3,16 +3,19 @@ import '../styles/questionpage.css'
 import AuthInfo from "../AuthInfo";
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const NewQuestionPage = () => {
     let [qTitle, setQTitle] = useState('')
     let [qTags, setQTags] = useState('')
     let [qDesc, setQDesc] = useState('')
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
+    const navigate = useNavigate();
 
     const newQButton = () => {
         let jwt = cookies['jsonwebtoken'];
-        if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
+        if (!jwt) return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
         const decoded = jwt_decode(jwt);
 
         let tags = []
@@ -28,21 +31,15 @@ const NewQuestionPage = () => {
             creatorUserName: decoded.username,
         }
 
-        const requestOptions = {
+        axios({
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + jwt
             },
-            body: JSON.stringify(payload)
-        };
-
-        fetch('http://localhost:7000/' + 'questions/new', requestOptions)
-            .then(response => response.json())
-            .then((newdata) => {
-                let post_id = newdata.id;
-                document.location.href = '/questions/id/' + post_id
-            })
+            data: payload,
+            url: 'questions/new'
+        })
+            .then(response => navigate('/questions/id/' + response.data.id))
 
         setQTitle('')
         setQTags('')

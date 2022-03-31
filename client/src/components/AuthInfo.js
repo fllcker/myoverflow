@@ -2,33 +2,31 @@ import React, {useEffect, useState} from 'react';
 import './styles/pages.css'
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
-import env from "react-dotenv";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const AuthInfo = (props) => {
     let [username, setUsername] = useState('')
     let [email, setEmail] = useState('')
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
     let jwt = cookies['jsonwebtoken'];
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
+        if (!jwt) return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
 
-        const requestOptions = {
-            method: 'GET',
+        axios({
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + jwt
-            }
-        };
-
-        fetch('http://localhost:7000/' + 'users/jwttest', requestOptions)
-            .then(response => response.text())
-            .then((data) => {
-                if (data == '123') {
+            },
+            url: 'users/jwttest'
+        })
+            .then((response) => {
+                if (response.data == '123') {
                     const decoded = jwt_decode(jwt);
                     setUsername(decoded.username)
                     setEmail(decoded.email)
-                } else return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
+                } else return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
             })
     }, [])
 

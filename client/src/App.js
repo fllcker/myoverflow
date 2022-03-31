@@ -8,8 +8,12 @@ import QuestionView from "./components/pages/QuestionView";
 import SearchPage from "./components/pages/SearchPage";
 import HomePage from "./components/pages/HomePage";
 import './components/styles/pages.css'
+import axios from "axios";
+
+axios.defaults.baseURL = 'http://localhost:7000'
 
 function App() {
+
     return (
         <div className="App">
             <Header/>

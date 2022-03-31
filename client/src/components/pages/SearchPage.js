@@ -1,40 +1,43 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import SearchPageQuestion from "../SearchPageQuestion";
-import env from "react-dotenv";
+import axios from "axios";
 
 const SearchPage = (props) => {
     let {text} = useParams()
     let [quests, setQuests] = useState([])
     const [cookies] = useCookies();
+    const navigate = useNavigate();
     let jwt = cookies['jsonwebtoken'];
 
     let [tagSearch, setTagSearch] = useState('')
 
     useEffect(() => {
-        if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
-
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + jwt
-            }
-        };
+        if (!jwt) return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
 
         if (!props.etag) {
             setTagSearch('')
-            fetch('http://localhost:7000/' + 'questions/contains/title/' + text, requestOptions)
-                .then(response => response.json())
-                .then(data => setQuests(data))
+
+            axios({
+                headers: {
+                    'Authorization': 'Bearer ' + jwt
+                },
+                url: 'questions/contains/title/' + text
+            })
+                .then(response => setQuests(response.data))
+
         } else {
             setTagSearch('stag')
-            fetch('http://localhost:7000/' + 'questions/contains/tag/' + text, requestOptions)
-                .then(response => response.json())
-                .then(data => setQuests(data))
-        }
 
+            axios({
+                headers: {
+                    'Authorization': 'Bearer ' + jwt
+                },
+                url: 'questions/contains/tag/' + text
+            })
+                .then(response => setQuests(response.data))
+        }
     }, [text])
 
     return (

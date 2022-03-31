@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
-import env from "react-dotenv";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const NewAnswer = (props) => {
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
     const [ta, setTa] = useState('')
+    const navigate = useNavigate();
 
     const SendBtn = () => {
         let jwt = cookies['jsonwebtoken'];
-        if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
+        if (!jwt) return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
         if (ta.length == 0) return 1;
 
         const decoded = jwt_decode(jwt);
@@ -21,18 +23,18 @@ const NewAnswer = (props) => {
             creatorUserName: decoded.username
         }
 
-        const requestOptions = {
+        axios({
             method: 'POST',
+            url: 'answers',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + jwt
             },
-            body: JSON.stringify(payload)
-        };
-
-        fetch('http://localhost:7000/' + 'answers', requestOptions)
-            .then(response => response.json())
-            .then(data => document.location.reload())
+            data: payload
+        })
+            .then((response) => {
+                navigate('/questions/id/0')
+                navigate('/questions/id/' + props.id)
+            })
 
         setTa('')
     }

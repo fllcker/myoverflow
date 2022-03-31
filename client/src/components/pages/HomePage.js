@@ -6,8 +6,6 @@ import {Link} from "react-router-dom";
 const HomePage = () => {
     let [prof, setProf] = useState('developer')
 
-    let profId = 0;
-
     let profs = [
         'developer',
         'system admin',

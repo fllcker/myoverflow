@@ -43,6 +43,6 @@ export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(AuthMiddleware)
-            .forRoutes(QuestionsController, AnswersController)
+            .forRoutes(QuestionsController, AnswersController, 'users/jwttest')
     }
 }

@@ -1,28 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {useCookies} from "react-cookie";
 import Answer from "./Answer";
-import env from "react-dotenv";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom'
 
 const AllAnswers = (props) => {
     let [answers, setAnswers] = useState([])
     const [cookies, setCookie] = useCookies();
+    const navigate = useNavigate();
 
     useEffect(() => {
         let jwt = cookies['jsonwebtoken'];
-        if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + jwt
-            }
-        };
+        if (!jwt) return navigate('/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь')
 
-        fetch('http://localhost:7000/' + 'answers/' + props.id, requestOptions)
-            .then(response => response.json())
-            .then((data) => {
-                data.reverse()
-                setAnswers(data)
+        axios({
+            headers: {
+                'Authorization': 'Bearer ' + jwt
+            },
+            url: 'answers/' + props.id
+        })
+            .then((response) => {
+                let d = response.data
+                d.reverse()
+                setAnswers(d)
             })
     }, [props.id])
 

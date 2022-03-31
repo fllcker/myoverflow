@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 const AccNav = () => {
     const [cookies, setCookie] = useCookies();
@@ -21,17 +22,14 @@ const AccNav = () => {
     useEffect(() => {
         let jwt = cookies['jsonwebtoken'];
         if (jwt) {
-            const requestOptions = {
-                method: 'GET',
+            axios({
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + jwt
-                }
-            };
-            fetch('http://localhost:7000/' + 'users/jwttest', requestOptions)
-                .then(response => response.text())
-                .then((data) => {
-                    if (data == '123') {
+                },
+                url: 'users/jwttest'
+            })
+                .then((response) => {
+                    if (response.data == '123') {
                         authed = true;
                         const decoded = jwt_decode(jwt);
                         setUsername(decoded.username)

@@ -1,13 +1,13 @@
 import Header from "./components/Header";
 import {Route, Routes} from "react-router-dom";
-import AuthLoginPage from "./components/AuthLoginPage";
-import MessagePage from "./components/MessagePage";
-import AuthSingupPage from "./components/AuthSingupPage";
-import NewQuestionPage from "./components/NewQuestionPage";
-import QuestionView from "./components/QuestionView";
+import AuthLoginPage from "./components/pages/AuthLoginPage";
+import MessagePage from "./components/pages/MessagePage";
+import AuthSingupPage from "./components/pages/AuthSingupPage";
+import NewQuestionPage from "./components/pages/NewQuestionPage";
+import QuestionView from "./components/pages/QuestionView";
+import SearchPage from "./components/pages/SearchPage";
+import HomePage from "./components/pages/HomePage";
 import './components/styles/pages.css'
-import SearchPage from "./components/SearchPage";
-import HomePage from "./components/HomePage";
 
 function App() {
     return (

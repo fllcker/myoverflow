@@ -11,10 +11,24 @@ const AuthInfo = (props) => {
 
     useEffect(() => {
         if (!jwt) return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
-        const decoded = jwt_decode(jwt);
-        //console.log(decoded)
-        setUsername(decoded.username)
-        setEmail(decoded.email)
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt
+            }
+        };
+
+        fetch(window.env.API_URL + 'users/jwttest', requestOptions)
+            .then(response => response.text())
+            .then((data) => {
+                if (data == '123') {
+                    const decoded = jwt_decode(jwt);
+                    setUsername(decoded.username)
+                    setEmail(decoded.email)
+                } else return document.location.href = '/alert/Ошибка авторизации/Авторизируйтесь или зарегистрируйтесь'
+            })
     }, [])
 
     return (

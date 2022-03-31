@@ -29,7 +29,7 @@ const NewAnswer = (props) => {
             body: JSON.stringify(payload)
         };
 
-        fetch('http://localhost:7000/answers', requestOptions)
+        fetch(window.env.API_URL + 'answers', requestOptions)
             .then(response => response.json())
             .then(data => document.location.reload())
 

@@ -5,24 +5,22 @@ import jwt_decode from "jwt-decode";
 
 const AccNav = () => {
     const [cookies, setCookie] = useCookies();
-    let [username, setUsername] = useState('')
-    let [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     let authed = false;
 
-    let [loginButton, setLoginButton] = useState(<Link className='button' to='/users/login'>Log in</Link>)
-    let [singupButton, setSingupButton] = useState(<Link className='button' to='/users/singup'>Sing up</Link>)
-    let [exitButton, setExitButton] = useState(null)
+    const [loginButton, setLoginButton] = useState(<Link className='button' to='/users/login'>Log in</Link>)
+    const [singupButton, setSingupButton] = useState(<Link className='button' to='/users/singup'>Sing up</Link>)
+    const [exitButton, setExitButton] = useState(null)
 
-    function exitbtn() {
+    function exitClick() {
         setCookie('jsonwebtoken', '')
         document.location.href = '/'
     }
 
     useEffect(() => {
         let jwt = cookies['jsonwebtoken'];
-        if (!jwt) {
-            authed = false;
-        } else {
+        if (jwt) {
             const requestOptions = {
                 method: 'GET',
                 headers: {
@@ -31,17 +29,18 @@ const AccNav = () => {
                 }
             };
 
-            fetch('http://localhost:7000/users/jwttest', requestOptions)
+            fetch(window.env.API_URL + 'users/jwttest', requestOptions)
                 .then(response => response.text())
                 .then((data) => {
-                    console.log(data)
-                    if (data == '123') authed = true;
-                    const decoded = jwt_decode(jwt);
-                    setUsername(decoded.username)
-                    setEmail('(' + decoded.email + ')')
-                    setExitButton(<button onClick={exitbtn} className='exitbtn'>Exit</button>)
-                    setLoginButton(null)
-                    setSingupButton(null)
+                    if (data == '123') {
+                        authed = true;
+                        const decoded = jwt_decode(jwt);
+                        setUsername(decoded.username)
+                        setEmail('(' + decoded.email + ')')
+                        setExitButton(<button onClick={exitClick} className='exitbtn'>Exit</button>)
+                        setLoginButton(null)
+                        setSingupButton(null)
+                    }
                 })
         }
     }, [])

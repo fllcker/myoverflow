@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import './styles/homepage.css'
-import OnePlus from "./OnePlus";
+import '../styles/homepage.css'
+import OnePlus from "../OnePlus";
 import {Link} from "react-router-dom";
 
 const HomePage = () => {

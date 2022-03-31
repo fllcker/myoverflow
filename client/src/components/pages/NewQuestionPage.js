@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import './styles/questionpage.css'
-import AuthInfo from "./AuthInfo";
+import '../styles/questionpage.css'
+import AuthInfo from "../AuthInfo";
 import {useCookies} from "react-cookie";
 import jwt_decode from "jwt-decode";
 
@@ -37,7 +37,7 @@ const NewQuestionPage = () => {
             body: JSON.stringify(payload)
         };
 
-        fetch('http://localhost:7000/questions/new', requestOptions)
+        fetch(window.env.API_URL + 'questions/new', requestOptions)
             .then(response => response.json())
             .then((newdata) => {
                 let post_id = newdata.id;

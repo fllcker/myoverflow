@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import './styles/questionpage.css'
+import '../styles/questionpage.css'
 import {Link, useParams} from "react-router-dom";
-import AllAnswers from "./AllAnswers";
+import AllAnswers from "../AllAnswers";
 import {useCookies} from "react-cookie";
-import NewAnswer from "./NewAnswer";
+import NewAnswer from "../NewAnswer";
 
 const QuestionView = () => {
     let {id} = useParams()
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
 
     // states
     let [postAuthor, setPostAuthor] = useState('')
@@ -27,7 +27,7 @@ const QuestionView = () => {
             }
         };
 
-        fetch('http://localhost:7000/questions/id/' + id, requestOptions)
+        fetch(window.env.API_URL + 'questions/id/' + id, requestOptions)
             .then(response => response.json())
             .then((data) => {
                 setPostAuthor(data.creatorUserName)

@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/pages.css'
+import '../styles/pages.css'
 import {Link, useParams} from "react-router-dom";
 
 const MessagePage = () => {

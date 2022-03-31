@@ -17,7 +17,7 @@ const AllAnswers = (props) => {
             }
         };
 
-        fetch('http://localhost:7000/answers/' + props.id, requestOptions)
+        fetch(window.env.API_URL + 'answers/' + props.id, requestOptions)
             .then(response => response.json())
             .then((data) => {
                 data.reverse()

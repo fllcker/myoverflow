@@ -1,27 +1,21 @@
 import React, {useState} from 'react';
-import './styles/auth.css'
+import '../styles/auth.css'
 import {useCookies} from "react-cookie";
 
-const AuthSingupPage = (props) => {
+const AuthLoginPage = (props) => {
     let [email, setEmail] = useState('')
     let [pass, setPass] = useState('')
-    let [username, setUsername] = useState('')
     const [cookies, setCookie] = useCookies();
 
     // getting user jwt
-    const { cookiess } = props;
     let jwt = cookies['jsonwebtoken'];
+
 
     const nextButton = () => {
         const payload = {
-            email,
-            password: pass,
-            username
+            email: email,
+            password: pass
         }
-
-        if ((2 > email.length > 32) || (!email.includes('@'))) return document.location.href = '/alert/Ошибка/Проверьте введенный email'
-        if (pass.length < 2) return document.location.href = '/alert/Ошибка/Проверьте введенный пароль'
-        if (username.length < 2) return document.location.href = '/alert/Ошибка/Проверьте введенный username'
 
         const requestOptions = {
             method: 'POST',
@@ -29,30 +23,28 @@ const AuthSingupPage = (props) => {
             body: JSON.stringify(payload)
         };
 
-        fetch('http://localhost:7000/users/registration', requestOptions)
+        fetch(window.env.API_URL + 'users/login', requestOptions)
             .then(response => response.text())
             .then((data) => {
                 // data -> jwt token
-                if (data.includes('повторяющееся значение')) return document.location.href = '/alert/Ошибка/Аккаунт с таким email уже существует'
+                if (data.includes('Wrong password')) return document.location.href = '/alert/Ошибка/Проверьте данные'
+                if (data.includes('Cannot read properties')) return document.location.href = '/alert/Ошибка/Проверьте данные'
                 setCookie('jsonwebtoken', data, {
                     path: '/',
                     maxAge: 36000,
                     secure: false
                 })
-                return document.location.href = '/alert/Успех/Вы зарегистрировались'
+
+                return document.location.href = '/alert/Успех/Вы авторизовались'
             })
 
         setEmail('')
         setPass('')
-        setUsername('')
     }
 
     return (
         <div className="authloginpage">
-            <h1>Регистрация</h1>
-
-            <h4>Username</h4>
-            <input type="text" className='forminput' value={username} onChange={event => setUsername(event.target.value)}/>
+            <h1>Авторизация</h1>
 
             <h4>Email</h4>
             <input type="email" className='forminput' value={email} onChange={event => setEmail(event.target.value)}/>
@@ -62,10 +54,9 @@ const AuthSingupPage = (props) => {
 
             <br/>
 
-
             <button className="button gg" onClick={nextButton}>Next</button>
         </div>
     );
 };
 
-export default AuthSingupPage;
+export default AuthLoginPage;

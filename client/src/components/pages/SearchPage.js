@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import SearchPageQuestion from "./SearchPageQuestion";
+import SearchPageQuestion from "../SearchPageQuestion";
 
 const SearchPage = (props) => {
     let {text} = useParams()
     let [quests, setQuests] = useState([])
-    const [cookies, setCookie] = useCookies();
+    const [cookies] = useCookies();
     let jwt = cookies['jsonwebtoken'];
 
     let [tagSearch, setTagSearch] = useState('')
@@ -24,12 +24,12 @@ const SearchPage = (props) => {
 
         if (!props.etag) {
             setTagSearch('')
-            fetch('http://localhost:7000/questions/contains/title/' + text, requestOptions)
+            fetch(window.env.API_URL + 'questions/contains/title/' + text, requestOptions)
                 .then(response => response.json())
                 .then(data => setQuests(data))
         } else {
             setTagSearch('stag')
-            fetch('http://localhost:7000/questions/contains/tag/' + text, requestOptions)
+            fetch(window.env.API_URL + 'questions/contains/tag/' + text, requestOptions)
                 .then(response => response.json())
                 .then(data => setQuests(data))
         }

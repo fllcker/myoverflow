@@ -1,18 +1,3 @@
-.homepage {
-    width: 80%;
-    background: #292D30;
-    padding: 50px;
-
-    margin: auto;
-    margin-top: 50px;
-    border-radius: 5px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .title {
     color: white;
 
